@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lane {
-    private int laneNumber;
+    private final int laneNumber;
     private List<Vehicle> vehicles;
-    private int waitingTime;
 
     public Lane(int laneNumber, List<String> directions) {
         this.laneNumber = laneNumber;
         this.vehicles = new ArrayList<>();
-        this.waitingTime = 0;
     }
 
     public List<Vehicle> getVehicles() {
@@ -33,5 +31,4 @@ public class Lane {
     public int getLaneNumber() {
         return laneNumber;
     }
-
 }
