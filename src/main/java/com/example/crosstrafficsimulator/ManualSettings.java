@@ -21,43 +21,29 @@ public class ManualSettings {
             List.of(10, 9, 8, 7, 6, 5)
     );
 
-    // All intersection lanes
-    // Each lane has number and list of destinations (format: start_end)
-    public static final List<Lane> INTERSECTION_LANES = new ArrayList<>();
+    // KEY: vehicle route in the format "start_end"
+    // VALUE: list of road numbers
+    public static final Map<String, List<Integer>> DIRECTION_TO_LANE_MAP = new HashMap<>();
     static {
-        INTERSECTION_LANES.add(new Lane(0, List.of("north_south", "north_west")));
-        INTERSECTION_LANES.add(new Lane(1, List.of("north_south")));
-        INTERSECTION_LANES.add(new Lane(2, List.of("north_east")));
+        DIRECTION_TO_LANE_MAP.put("south_west", List.of(27));
+        DIRECTION_TO_LANE_MAP.put("south_north", List.of(28, 29));
+        DIRECTION_TO_LANE_MAP.put("south_east", List.of(29));
 
-        INTERSECTION_LANES.add(new Lane(10, List.of("east_west", "east_north")));
-        INTERSECTION_LANES.add(new Lane(15, List.of("east_south")));
+        DIRECTION_TO_LANE_MAP.put("east_south", List.of(15));
+        DIRECTION_TO_LANE_MAP.put("east_west", List.of(10));
+        DIRECTION_TO_LANE_MAP.put("east_north", List.of(10));
 
-        INTERSECTION_LANES.add(new Lane(27, List.of("south_west")));
-        INTERSECTION_LANES.add(new Lane(28, List.of("south_north")));
-        INTERSECTION_LANES.add(new Lane(29, List.of("south_north", "south_east")));
+        DIRECTION_TO_LANE_MAP.put("north_east", List.of(2));
+        DIRECTION_TO_LANE_MAP.put("north_south", List.of(0, 1));
+        DIRECTION_TO_LANE_MAP.put("north_west", List.of(0));
 
-        INTERSECTION_LANES.add(new Lane(16, List.of("west_north")));
-        INTERSECTION_LANES.add(new Lane(19, List.of("west_east", "west_south")));
+        DIRECTION_TO_LANE_MAP.put("west_north", List.of(16));
+        DIRECTION_TO_LANE_MAP.put("west_east", List.of(19));
+        DIRECTION_TO_LANE_MAP.put("west_south", List.of(19));
     }
 
-    // Helper for assigning to lane based on vehicle's destination
-    public static final Map<String, List<Integer>> INTERSECTION_MAP = new HashMap<>();
-    static {
-        INTERSECTION_MAP.put("north_south", List.of(0, 1));
-        INTERSECTION_MAP.put("north_west",  List.of(0));
-        INTERSECTION_MAP.put("north_east",  List.of(2));
 
-        INTERSECTION_MAP.put("east_west", List.of(10));
-        INTERSECTION_MAP.put("east_north",  List.of(10));
-        INTERSECTION_MAP.put("east_south",  List.of(15));
-
-        INTERSECTION_MAP.put("south_west",  List.of(27));
-        INTERSECTION_MAP.put("south_north", List.of(28, 29));
-        INTERSECTION_MAP.put("south_east",  List.of(29));
-
-        INTERSECTION_MAP.put("west_north",  List.of(16));
-        INTERSECTION_MAP.put("west_east", List.of(19));
-        INTERSECTION_MAP.put("west_south",  List.of(19));
-    }
+    public static final int SECONDS_PER_VEHICLE = 7;
+    public static final int SECONDS_YELLOW_LIGHT = 4;
 
 }

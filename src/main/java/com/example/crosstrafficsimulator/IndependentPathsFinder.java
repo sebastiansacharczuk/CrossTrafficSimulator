@@ -30,7 +30,7 @@ public class IndependentPathsFinder {
         return true;
     }
 
-    public static List<List<List<Integer>>> findMaximalIndependentSets(List<List<Integer>> allVehiclePaths) {
+    public static List<List<Integer>> findMaximalIndependentSets(List<List<Integer>> allVehiclePaths) {
         int n = allVehiclePaths.size();
         List<List<Integer>> allIndependent = new ArrayList<>();
 
@@ -61,17 +61,14 @@ public class IndependentPathsFinder {
             }
         }
 
-        List<List<List<Integer>>> result = new ArrayList<>();
-        // Wyświetlanie wyników
-//        System.out.println("Liczba maksymalnych grup: " + maximal.size());
-        for (int i = 0; i < maximal.size(); i++) {
-//            System.out.println("Grupa " + (i) + ":");
-            List<List<Integer>> tmp = new ArrayList<>();
-            for (int idx : maximal.get(i)) {
-//                System.out.println("  " + VEHICLE_PATHS.get(idx));
-                tmp.add(VEHICLE_PATHS.get(idx));
+        // Tworzenie wyniku z numerami pasów zamiast pełnych ścieżek
+        List<List<Integer>> result = new ArrayList<>();
+        for (List<Integer> subset : maximal) {
+            List<Integer> laneNumbers = new ArrayList<>();
+            for (int idx : subset) {
+                laneNumbers.add(VEHICLE_PATHS.get(idx).get(0)); // Bierzemy tylko numer pasa
             }
-            result.add(tmp);
+            result.add(laneNumbers);
         }
         return result;
     }

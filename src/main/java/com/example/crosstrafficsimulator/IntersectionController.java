@@ -13,7 +13,7 @@ public class IntersectionController {
 
     private List<Lane> lanes;
 
-    private List<List<List<Integer>>> greenLightsConfigurations;
+    private List<List<Integer>> greenLightsConfigurations;
 
     private IntersectionController() {
         lanes = setLanesFromSettings();
@@ -42,7 +42,7 @@ public class IntersectionController {
         List<Integer> laneNumbers = DIRECTION_TO_LANE_MAP.get(vehicle.getDestination());
 
         if (laneNumbers == null || laneNumbers.isEmpty()) {
-            System.out.println("Brak dostępnych pasów dla kierunku: " + vehicle.getDestination());
+            System.out.println("There are no available lanes for directions: " + vehicle.getDestination());
             return;
         }
 
@@ -61,25 +61,150 @@ public class IntersectionController {
 
         if (selectedLane != null) {
             selectedLane.addVehicle(vehicle);
-            System.out.println("Dodano pojazd " + vehicle.getVehicleId() + " do pasa " + selectedLane.getLaneNumber());
+            System.out.println("Added vehicle " + vehicle.getVehicleId() + " to lane " + selectedLane.getLaneNumber());
         } else {
-            System.out.println("Nie znaleziono pasującego pasa dla pojazdu " + vehicle.getVehicleId());
+            System.out.println("Lane not found for vehicle: " + vehicle.getVehicleId());
         }
     }
 
-    public void displayVehiclesOnLanes() {
-        System.out.println("Stan pojazdów na pasach:");
+    public void increaseWaitingTimeForAllVehicles(int seconds) {
         for (Lane lane : lanes) {
-            System.out.println("Pas " + lane.getLaneNumber() + ":");
-            List<Vehicle> vehicles = lane.getVehicles();
-            if (vehicles.isEmpty()) {
-                System.out.println("  Brak pojazdów.");
-            } else {
-                for (Vehicle vehicle : vehicles) {
-                    System.out.println("  " + vehicle.toString());
+            for (Vehicle vehicle : lane.getVehicles()) {
+                vehicle.increaseWaitingTime(seconds);
+            }
+        }
+    }
+
+    private int calculateGreenTime(List<Integer> config) {
+        int maxVehicles = 0;
+        for (int laneNumber : config) {
+            for (Lane lane : lanes) {
+                if (lane.getLaneNumber() == laneNumber) {
+                    int vehicleCount = lane.getVehicles().size();
+                    maxVehicles = Math.max(maxVehicles, vehicleCount);
+                    break;
                 }
             }
         }
+        return maxVehicles * SECONDS_PER_VEHICLE;
+    }
+
+    public void displayVehiclesOnLanes() {
+        System.out.println("Condition of traffic:");
+        for (Lane lane : lanes) {
+            System.out.print("Lane " + lane.getLaneNumber() + ":");
+            List<Vehicle> vehicles = lane.getVehicles();
+            if (vehicles.isEmpty()) {
+                System.out.println(" --");
+            } else {
+                for (Vehicle vehicle : vehicles) {
+                    System.out.print(" " + vehicle.getVehicleId());
+                }
+                System.out.println();
+            }
+        }
         System.out.println("------------------------");
+    }
+
+    private List<Vehicle> removeFirstVehicles(List<Vehicle> vehicles, int amount) {
+        List<Vehicle> removedVehicles = new ArrayList<>();
+        int vehiclesToRemove = Math.min(amount, vehicles.size());
+
+        for (int i = 0; i < vehiclesToRemove; i++) {
+            Vehicle vehicle = vehicles.get(0);
+            removedVehicles.add(vehicle);
+            vehicles.remove(0);
+        }
+
+        return removedVehicles;
+    }
+
+
+    private double calculateLaneWeight(Lane lane) {
+        List<Vehicle> vehicles = lane.getVehicles();
+        if (vehicles.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalWaitingTime = 0;
+        for (Vehicle vehicle : vehicles) {
+            totalWaitingTime += vehicle.getWaitingTime();
+        }
+        double averageWaitingTime = totalWaitingTime / vehicles.size();
+        double vehicleCountFactor = Math.sqrt(vehicles.size());
+        return averageWaitingTime + vehicleCountFactor;
+    }
+
+
+    public List<Integer> selectNextConfiguration() {
+        double maxTotalWeight = -1;
+        List<Integer> selectedConfig = null;
+
+        for (List<Integer> config : greenLightsConfigurations) {
+            double totalWeight = 0;
+            for (int laneNumber : config) {
+                for (Lane lane : lanes) {
+                    if (lane.getLaneNumber() == laneNumber) {
+                        totalWeight += calculateLaneWeight(lane);
+                        break;
+                    }
+                }
+            }
+            if (totalWeight > maxTotalWeight) {
+                maxTotalWeight = totalWeight;
+                selectedConfig = config;
+            }
+        }
+        return selectedConfig != null ? selectedConfig : greenLightsConfigurations.get(0); // Domyślna konfiguracja, jeśli brak pojazdów
+    }
+
+    private List<Vehicle> activateConfiguration(List<Integer> config) {
+        if (config == null) {
+            System.out.println("There are no configurations.");
+            return null;
+        }
+
+        int greenTime = calculateGreenTime(config);
+
+        System.out.println("Activated configuration: " + config + " for " + greenTime + " sec (weight: " + String.format("%.2f", calculateConfigWeight(config)) + ")");
+        System.out.println("Yellow light:" + SECONDS_YELLOW_LIGHT);
+
+        List<Vehicle> leftVehicles = new ArrayList<>();
+        for (int laneNumber : config) {
+            for (Lane lane : lanes) {
+                if (lane.getLaneNumber() == laneNumber) {
+                    List<Vehicle> laneVehicles = lane.getVehicles();
+                    List<Vehicle> removed = removeFirstVehicles(laneVehicles, laneVehicles.size());
+                    leftVehicles.addAll(removed);
+
+                    for (Vehicle vehicle : removed) {
+                        System.out.println("Vehicle { id:" + vehicle.getVehicleId() + ", lane:" + laneNumber + ", waitingTime:" + vehicle.getWaitingTime() + "sec }");
+                    }
+                    break;
+                }
+            }
+        }
+        increaseWaitingTimeForAllVehicles(greenTime + SECONDS_YELLOW_LIGHT);
+        return leftVehicles;
+    }
+
+    private double calculateConfigWeight(List<Integer> config) {
+        double totalWeight = 0;
+        for (int laneNumber : config) {
+            for (Lane lane : lanes) {
+                if (lane.getLaneNumber() == laneNumber) {
+                    totalWeight += calculateLaneWeight(lane);
+                    break;
+                }
+            }
+        }
+        return totalWeight;
+    }
+
+    public List<Vehicle> simulateStep() {
+        System.out.println("simulation step");
+        displayVehiclesOnLanes();
+        List<Integer> nextConfig = selectNextConfiguration();
+        return activateConfiguration(nextConfig);
     }
 }
