@@ -13,6 +13,12 @@ public class CommandProcessor {
     public static int processCommandsFromFile(String inputFilePath, String outputFilePath) {
         IntersectionController controller = IntersectionController.getInstance();
         try {
+
+            File inputFile = new File(inputFilePath);
+            if (!inputFile.exists()) {
+                System.err.println("Error: Input file '" + inputFilePath + "' not found.");
+                return 1;
+            }
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(new File(inputFilePath));
             JsonNode commandsNode = root.get("commands");
@@ -72,6 +78,9 @@ public class CommandProcessor {
 
         } catch (IOException e) {
             System.err.println("Error processing JSON file: " + e.getMessage());
+            return 1;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
             return 1;
         }
         return 0;

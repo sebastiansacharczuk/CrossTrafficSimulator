@@ -17,23 +17,34 @@ public class CrossTrafficSimulatorApplication {
             outputFileName = args[1];
         }
         else {
-            inputFileName = "input1.json";
+            inputFileName = "input.json";
             outputFileName = "output.json";
         }
 
-        CommandProcessor.processCommandsFromFile(inputFileName, outputFileName);
 
 
         List<List<Integer>> greenLightConfigurations = findMaximalIndependentSets(VEHICLE_PATHS);
-        System.out.println(greenLightConfigurations.size() + " green light configurations");
+        System.out.println(greenLightConfigurations.size() + " green light configurations ([index]: lane_0, lane_1 etc...)");
 
         for (int i = 0; i < greenLightConfigurations.size(); i++) {
-            System.out.print("Group[" + i + "]: ");
+            System.out.print("[" + i + "]: ");
             for (int j = 0; j < greenLightConfigurations.get(i).size(); j++ ) {
                 System.out.print(greenLightConfigurations.get(i).get(j) + " ");
             }
             System.out.println();
         }
+
+
+        int resultCode = CommandProcessor.processCommandsFromFile(inputFileName, outputFileName);
+        if (resultCode == 0) {
+            System.out.println("Simulation succeed");
+        }
+        else {
+            System.out.println("Simulation failed");
+        }
+
+
+
         //        SpringApplication.run(CrossTrafficSimulatorApplication.class, args);
     }
 

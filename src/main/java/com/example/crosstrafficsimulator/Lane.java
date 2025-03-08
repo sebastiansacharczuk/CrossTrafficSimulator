@@ -7,7 +7,7 @@ public class Lane {
     private final int laneNumber;
     private List<Vehicle> vehicles;
 
-    public Lane(int laneNumber, List<String> directions) {
+    public Lane(int laneNumber) {
         this.laneNumber = laneNumber;
         this.vehicles = new ArrayList<>();
     }
@@ -24,11 +24,20 @@ public class Lane {
         this.vehicles.add(vehicle);
     }
 
-    public void removeVehicle(Vehicle vehicle) {
-        this.vehicles.remove(vehicle);
-    }
-
     public int getLaneNumber() {
         return laneNumber;
+    }
+
+    public List<Vehicle> removeFirstVehicles(int amount) {
+        List<Vehicle> removedVehicles = new ArrayList<>();
+        int vehiclesToRemove = Math.min(amount, this.getVehiclesCount());
+
+        for (int i = 0; i < vehiclesToRemove; i++) {
+            Vehicle vehicle = this.vehicles.get(0);
+            removedVehicles.add(vehicle);
+            this.vehicles.remove(0);
+        }
+
+        return removedVehicles;
     }
 }

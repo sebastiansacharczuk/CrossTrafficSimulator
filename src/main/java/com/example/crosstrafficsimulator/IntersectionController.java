@@ -32,7 +32,7 @@ public class IntersectionController {
 
         for (List<Integer> path : VEHICLE_PATHS) {
             int laneNumber = path.get(0);
-            Lane lane = new Lane(laneNumber, new ArrayList<>());
+            Lane lane = new Lane(laneNumber);
             result.add(lane);
         }
         return result;
@@ -42,7 +42,7 @@ public class IntersectionController {
         List<Integer> laneNumbers = DIRECTION_TO_LANE_MAP.get(vehicle.getDestination());
 
         if (laneNumbers == null || laneNumbers.isEmpty()) {
-            System.out.println("There are no available lanes for directions: " + vehicle.getDestination());
+            System.err.println("There are no available lanes for directions: " + vehicle.getDestination());
             return;
         }
 
@@ -63,7 +63,7 @@ public class IntersectionController {
             selectedLane.addVehicle(vehicle);
             System.out.println("Added vehicle " + vehicle.getVehicleId() + " to lane " + selectedLane.getLaneNumber());
         } else {
-            System.out.println("Lane not found for vehicle: " + vehicle.getVehicleId());
+            System.err.println("Lane not found for vehicle: " + vehicle.getVehicleId());
         }
     }
 
@@ -104,19 +104,6 @@ public class IntersectionController {
             }
         }
         System.out.println("------------------------");
-    }
-
-    private List<Vehicle> removeFirstVehicles(List<Vehicle> vehicles, int amount) {
-        List<Vehicle> removedVehicles = new ArrayList<>();
-        int vehiclesToRemove = Math.min(amount, vehicles.size());
-
-        for (int i = 0; i < vehiclesToRemove; i++) {
-            Vehicle vehicle = vehicles.get(0);
-            removedVehicles.add(vehicle);
-            vehicles.remove(0);
-        }
-
-        return removedVehicles;
     }
 
 
@@ -160,21 +147,22 @@ public class IntersectionController {
 
     private List<Vehicle> activateConfiguration(List<Integer> config) {
         if (config == null) {
-            System.out.println("There are no configurations.");
+            System.err.println("There are no configurations.");
             return null;
         }
 
         int greenTime = calculateGreenTime(config);
 
-        System.out.println("Activated configuration: " + config + " for " + greenTime + " sec (weight: " + String.format("%.2f", calculateConfigWeight(config)) + ")");
-        System.out.println("Yellow light:" + SECONDS_YELLOW_LIGHT);
+        System.out.println("[GREEN LIGHT] on lanes: " + config + " for " + greenTime + " sec (algorithm weight: " + String.format("%.2f", calculateConfigWeight(config)) + ")");
+        System.out.println("[YELLOW LIGHT] for " + SECONDS_YELLOW_LIGHT + " sec.");
+        System.out.println("[RED LIGHT]");
 
         List<Vehicle> leftVehicles = new ArrayList<>();
         for (int laneNumber : config) {
             for (Lane lane : lanes) {
                 if (lane.getLaneNumber() == laneNumber) {
-                    List<Vehicle> laneVehicles = lane.getVehicles();
-                    List<Vehicle> removed = removeFirstVehicles(laneVehicles, laneVehicles.size());
+
+                    List<Vehicle> removed = lane.removeFirstVehicles(Math.min(lane.getVehiclesCount(), MAX_VEHICLES_PER_GREEN_LIGHT));
                     leftVehicles.addAll(removed);
 
                     for (Vehicle vehicle : removed) {

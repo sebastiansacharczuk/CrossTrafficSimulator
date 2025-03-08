@@ -2,9 +2,6 @@ package com.example.crosstrafficsimulator;
 
 import java.util.*;
 
-import static com.example.crosstrafficsimulator.ManualSettings.VEHICLE_PATHS;
-
-
 public class IndependentPathsFinder {
 
     static boolean intersects(List<Integer> path1, List<Integer> path2) {
@@ -42,17 +39,16 @@ public class IndependentPathsFinder {
                 }
             }
             if (isIndependent(subset, allVehiclePaths)) {
-                allIndependent.add(new ArrayList<>(subset)); // Zapisujemy niezależny podzbiór
+                allIndependent.add(new ArrayList<>(subset));
             }
         }
 
-        // Znajdowanie maksymalnych zbiorów niezależnych
         List<List<Integer>> maximal = new ArrayList<>();
         for (List<Integer> subset : allIndependent) {
             boolean isMaximal = true;
             for (List<Integer> other : allIndependent) {
                 if (other.size() > subset.size() && other.containsAll(subset)) {
-                    isMaximal = false; // Podzbiór nie jest maksymalny
+                    isMaximal = false;
                     break;
                 }
             }
@@ -61,12 +57,12 @@ public class IndependentPathsFinder {
             }
         }
 
-        // Tworzenie wyniku z numerami pasów zamiast pełnych ścieżek
+
         List<List<Integer>> result = new ArrayList<>();
         for (List<Integer> subset : maximal) {
             List<Integer> laneNumbers = new ArrayList<>();
             for (int idx : subset) {
-                laneNumbers.add(VEHICLE_PATHS.get(idx).get(0)); // Bierzemy tylko numer pasa
+                laneNumbers.add(allVehiclePaths.get(idx).get(0)); // first element - entry lane number
             }
             result.add(laneNumbers);
         }

@@ -45,5 +45,6 @@ public class ManualSettings {
 
     public static final int SECONDS_PER_VEHICLE = 7;
     public static final int SECONDS_YELLOW_LIGHT = 4;
+    public static final int MAX_VEHICLES_PER_GREEN_LIGHT = 5;
 
 }

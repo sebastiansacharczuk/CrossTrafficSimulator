@@ -16,10 +16,6 @@ public class Vehicle {
         return waitingTime;
     }
 
-    public void setWaitingTime(int waitingTime) {
-        this.waitingTime = waitingTime;
-    }
-
     public String getVehicleId() {
         return vehicleId;
     }
@@ -30,7 +26,7 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Car{vehicleId= "+ vehicleId + "}";
+        return "Car{ vehicleId= "+ this.vehicleId + ", destination " + this.destination + ", waitingTime" +  this.waitingTime + " }";
     }
 
     public void increaseWaitingTime(int seconds) {
