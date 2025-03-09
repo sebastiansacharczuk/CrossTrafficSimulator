@@ -1,10 +1,14 @@
 package com.example.crosstrafficsimulator;
 
+import com.example.crosstrafficsimulator.simulation.CommandProcessor;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import java.util.List;
 
-import static com.example.crosstrafficsimulator.IndependentPathsFinder.findMaximalIndependentSets;
-import static com.example.crosstrafficsimulator.ManualSettings.VEHICLE_PATHS;
-//@SpringBootApplication
+import static com.example.crosstrafficsimulator.simulation.IndependentPathsFinder.findMaximalIndependentSets;
+import static com.example.crosstrafficsimulator.simulation.ManualSettings.VEHICLE_PATHS;
+@SpringBootApplication
 public class CrossTrafficSimulatorApplication {
 
     public static void main(String[] args) {
@@ -45,7 +49,7 @@ public class CrossTrafficSimulatorApplication {
 
 
 
-        //        SpringApplication.run(CrossTrafficSimulatorApplication.class, args);
+                SpringApplication.run(CrossTrafficSimulatorApplication.class, args);
     }
 
 

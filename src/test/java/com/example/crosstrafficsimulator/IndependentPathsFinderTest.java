@@ -1,5 +1,6 @@
 package com.example.crosstrafficsimulator;
 
+import com.example.crosstrafficsimulator.simulation.IndependentPathsFinder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

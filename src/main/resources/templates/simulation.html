@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamiczne animacje kropek – wiele jednocześnie</title>
+    <link rel="stylesheet" th:href="@{simulation.css}">
+</head>
+<body>
+<div class="container">
+    <!-- PRZYCISK STEP -->
+    <button id="nextStepButton">STEP</button>
+    <!-- PRZYCISKI URUCHAMIAJĄCE ANIMACJE SKRĘCAJĄCE -->
+<!--    <button class="btn lane2-right" onclick="startAnimation('lane2-right')">L2-R</button>-->
+<!--    <button class="btn down-then-left"  onclick="startAnimation('down-then-left')">DL</button>-->
+<!--    <button class="btn lane0-left"  onclick="startAnimation('lane0-left')">L0-L</button>-->
+<!--    <button class="btn lane29-right" onclick="startAnimation('lane29-right')">L29-R</button>-->
+<!--    <button class="btn lane27-left" onclick="startAnimation('lane27-left')">L27-L</button>-->
+<!--    <button class="btn lane10-up" onclick="startAnimation('lane10-up')">L10-U</button>-->
+<!--    <button class="btn lane15-down" onclick="startAnimation('lane15-down')">L15-D</button>-->
+<!--    <button class="btn lane16-up" onclick="startAnimation('lane16-up')">L16-U</button>-->
+<!--    <button class="btn lane19-down" onclick="startAnimation('lane19-down')">L19-D</button>-->
+
+<!--    &lt;!&ndash; PRZYCISKI URUCHAMIAJĄCE ANIMACJE PROSTE &ndash;&gt;-->
+<!--    <button class="btn lane1-down" onclick="startAnimation('lane1-down')">L1-D</button>-->
+<!--    <button class="btn lane28-up" onclick="startAnimation('lane28-up')">L28-U</button>-->
+<!--    <button class="btn lane19-right" onclick="startAnimation('lane19-right')">L19-R</button>-->
+<!--    <button class="btn lane10-left" onclick="startAnimation('lane10-left')">L10-L</button>-->
+<!--    <button class="btn lane0-down" onclick="startAnimation('lane0-down')">L0-D</button>-->
+
+    <div class="intersection">
+        <div class="vertical-road">
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+        </div>
+        <div class="horizontal-road">
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+            <div class="road-line"></div>
+        </div>
+        <div class="center-square"></div>
+    </div>
+    <div class="lane-counter" id="counter-lane0">0</div>
+    <div class="lane-counter" id="counter-lane1">0</div>
+    <div class="lane-counter" id="counter-lane2">0</div>
+    <div class="lane-counter" id="counter-lane10">0</div>
+    <div class="lane-counter" id="counter-lane15">0</div>
+    <div class="lane-counter" id="counter-lane16">0</div>
+    <div class="lane-counter" id="counter-lane19">0</div>
+    <div class="lane-counter" id="counter-lane27">0</div>
+    <div class="lane-counter" id="counter-lane28">0</div>
+    <div class="lane-counter" id="counter-lane29">0</div>
+</div>
+
+<script th:src="@{simulation.js}"></script>
+</body>
+</html>

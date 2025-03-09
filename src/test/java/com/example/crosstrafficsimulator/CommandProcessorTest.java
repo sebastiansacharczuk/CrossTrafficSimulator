@@ -1,5 +1,6 @@
 package com.example.crosstrafficsimulator;
 
+import com.example.crosstrafficsimulator.simulation.CommandProcessor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

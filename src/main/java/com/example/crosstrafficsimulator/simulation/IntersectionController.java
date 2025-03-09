@@ -1,10 +1,10 @@
-package com.example.crosstrafficsimulator;
+package com.example.crosstrafficsimulator.simulation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.crosstrafficsimulator.IndependentPathsFinder.findMaximalIndependentSets;
-import static com.example.crosstrafficsimulator.ManualSettings.*;
+import static com.example.crosstrafficsimulator.simulation.IndependentPathsFinder.findMaximalIndependentSets;
+import static com.example.crosstrafficsimulator.simulation.ManualSettings.*;
 
 
 public class IntersectionController {
@@ -38,12 +38,12 @@ public class IntersectionController {
         return result;
     }
 
-    public void addVehicleToLane(Vehicle vehicle) {
+    public int addVehicleToLane(Vehicle vehicle) {
         List<Integer> laneNumbers = DIRECTION_TO_LANE_MAP.get(vehicle.getDestination());
 
         if (laneNumbers == null || laneNumbers.isEmpty()) {
             System.err.println("There are no available lanes for directions: " + vehicle.getDestination());
-            return;
+            return -1;
         }
 
         Lane selectedLane = null;
@@ -60,10 +60,13 @@ public class IntersectionController {
         }
 
         if (selectedLane != null) {
+            vehicle.setLaneNumber(selectedLane.getLaneNumber());
             selectedLane.addVehicle(vehicle);
             System.out.println("Added vehicle " + vehicle.getVehicleId() + " to lane " + selectedLane.getLaneNumber());
+            return selectedLane.getLaneNumber();
         } else {
             System.err.println("Lane not found for vehicle: " + vehicle.getVehicleId());
+            return -1;
         }
     }
 

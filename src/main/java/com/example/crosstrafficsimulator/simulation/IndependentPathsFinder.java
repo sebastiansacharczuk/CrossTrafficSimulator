@@ -1,4 +1,4 @@
-package com.example.crosstrafficsimulator;
+package com.example.crosstrafficsimulator.simulation;
 
 import java.util.*;
 

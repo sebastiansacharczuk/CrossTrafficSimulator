@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>CrossTrafficSimulator</title>
+    <link rel="stylesheet" th:href="@{index.css}">
+</head>
+<body>
+
+<div class="instructions">
+    <h2>Instrukcja obsługi</h2>
+    <p>
+        1. Wprowadź komendy JSON w polu tekstowym poniżej.<br>
+        2. Lub przeciągnij plik JSON na zaznaczone pole.<br>
+        3. Kliknij "Wyślij", aby rozpocząć symulację.
+    </p>
+</div>
+<div class="message-box" id="messageBox"></div>
+<div class="container">
+    <div class="input-box">
+        <h3>Wprowadź komendy ręcznie</h3>
+        <textarea id="commandsText" placeholder="Wklej tutaj swój JSON..." class="fixed-textarea"></textarea>
+    </div>
+    <div class="input-box">
+        <h3>Lub prześlij plik</h3>
+        <div class="file-drop-zone" id="dropZone">
+            <div class="file-container" id="fileContainer">
+                <div class="file-preview" id="filePreview">
+                    <span class="file-icon">📄</span>
+                    <span class="file-name" id="fileName"></span>
+                    <button class="remove-file" onclick="removeFile()">×</button>
+                </div>
+                <input type="file" id="fileInput" accept=".json" hidden>
+                <p class="drop-text">Przeciągnij plik tutaj lub kliknij poniżej</p>
+                <button class="choose-file" onclick="document.getElementById('fileInput').click()">Wybierz plik</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="submitBtn">Wyślij</button>
+
+<script th:src="@{index.js}"></script>
+</body>
+</html>

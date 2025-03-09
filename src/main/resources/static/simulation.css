@@ -1,0 +1,283 @@
+/* Globalne ustawienia */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: darkgreen;
+    font-family: Arial, sans-serif;
+}
+.container {
+    position: relative;
+    width: 100vw; /* 100% szerokości viewportu */
+    height: 100vh; /* 100% wysokości viewportu */
+}
+.dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #3498db;
+    position: absolute;
+}
+
+#nextStepButton {
+
+    background-color: #007bff; /* Niebieski kolor */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#nextStepButton:hover {
+    background-color: #0056b3; /* Ciemniejszy niebieski */
+    transform: scale(1.05);
+}
+
+#nextStepButton:active {
+    background-color: #004080;
+    transform: scale(0.95);
+}
+
+/* ------------------------- */
+/* DEFINICJE ANIMACJI        */
+/* ------------------------- */
+
+/* Animacje skręcające */
+@keyframes lane2Right {
+    0%   { top: 0; left: 49%; }
+    50%  { top: 49vh; left: 49%; }
+    100% { top: 49vh; left: calc(100vw - 20px); }
+}
+@keyframes downThenLeft {
+    0%   { top: 0; left: 55%; }
+    50%  { top: 30vh; left: 55%; }
+    100% { top: 30vh; left: 0; }
+}
+@keyframes lane0Left {
+    0%   { top: 0; left: 41%; }
+    50%  { top: 44%; left: 41%; }
+    100% { top: 44%; left: 0; }
+}
+@keyframes lane29Right {
+    0%   { top: calc(100vh - 20px); left: 57%; }
+    50%  { top: 59%; left: 57%; }
+    100% { top: 59%; left: calc(100vw - 20px); }
+}
+@keyframes lane27Left {
+    0%   { top: calc(100vh - 20px); left: 49%; }
+    50%  { top: 49%; left: 49%; }
+    100% { top: 49%; left: 0; }
+}
+@keyframes lane16Up {
+    0%   { left: 0; top: 53%; }
+    50%  { left: 53%; top: 53%; }
+    100% { left: 53%; top: 0; }
+}
+@keyframes lane15Down {
+    0%   { left: 0; top: 59%; }
+    50%  { left: 41%; top: 59%; }
+    100% { left: 41%; top: calc(100vh - 20px); }
+}
+@keyframes lane10Up {
+    0%   { left: calc(100vw - 20px); top: 43%; }
+    50%  { left: 57%; top: 43%; }
+    100% { left: 57%; top: 0; }
+}
+@keyframes lane19Down {
+    0%   { left: calc(100vw - 20px); top: 55%; }
+    50%  { left: 50vw; top: 55%; }
+    100% { left: 50vw; top: calc(100vh - 20px); }
+}
+
+/* Animacje prostych linii */
+@keyframes lane1Down {
+    0% { top: 0; left: 45%;}
+    100% { top: calc(100vh - 20px); left: 45%;}
+}
+@keyframes lane0-down {
+    0% { top: 0; left: 41%;}
+    100% { top: calc(100vh - 20px); left: 41%;}
+}
+@keyframes lane28Up {
+    0% { top: calc(100vh - 20px); left: 53%;}
+    100% { top: 0; left: 53%;}
+}
+@keyframes lane19Right {
+    0% { left: 0; top: 58%;}
+    100% { left: calc(100vw - 20px); top: 58%;}
+}
+@keyframes lane10Left {
+    0% { left: calc(100vw - 20px); top: 44%;}
+    100% { left: 0; top: 44%;}
+}
+
+/* Przykładowe pozycjonowanie (dostosuj w zależności od pasów) */
+#counter-lane0 { top: 10%; left: 41%; }
+#counter-lane1 { top: 10%; left: 45%; }
+#counter-lane2 { top: 10%; left: 49%; }
+
+#counter-lane10 { top: 43.5%; left: 90%; }
+#counter-lane15 { top: 48.5%; left: 90%; }
+
+#counter-lane16 { top: 53%; left: 10%; }
+#counter-lane19 { top: 58.5%; left: 10%; }
+
+#counter-lane27 { top: 90%; left: 49%; }
+#counter-lane28 { top: 90%; left: 53%; }
+#counter-lane29 { top: 90%; left: 57%; }
+
+/* ------------------------- */
+/* POZYCJONOWANIE KROPEK      */
+/* ------------------------- */
+
+/* Pozycje startowe dla animacji skręcających */
+.lane2-right { top: 0; left: 45%; }
+.down-then-left  { top: 0; left: 55%; }
+.lane0-left  { top: 0; left: 55%; }
+.lane29-right   { top: calc(100vh - 20px); left: 45%; }
+.lane27-left    { top: calc(100vh - 20px); left: 55%; }
+.lane10-up    { left: 0; top: 45%; }
+.lane15-down  { left: 0; top: 55%; }
+.lane16-up   { left: calc(100vw - 20px); top: 45%; }
+.lane19-down { left: calc(100vw - 20px); top: 55%; }
+
+/* Pozycje startowe dla animacji prostych */
+.lane1-down { left: 42%; top: 0; }
+.lane0-down { left: 42%; top: 0; }
+.lane28-up { left: 20%; top: calc(100vh - 20px); }
+.lane19-right { top: 80%; left: 0; }
+.lane10-left { top: 90%; left: calc(100vw - 20px); }
+
+/* ------------------------- */
+/* URUCHAMIANIE ANIMACJI     */
+/* ------------------------- */
+
+/* Klasa .animate dodawana dynamicznie uruchamia animację */
+.animate.lane2-right { animation: lane2Right 3s forwards; }
+.animate.lane0-left  { animation: lane0Left 3s forwards; }
+.animate.lane29-right   { animation: lane29Right 3s forwards; }
+.animate.lane27-left    { animation: lane27Left 3s forwards; }
+.animate.lane10-up    { animation: lane10Up 3s forwards; }
+.animate.lane15-down  { animation: lane15Down 3s forwards; }
+.animate.lane16-up   { animation: lane16Up 3s forwards; }
+.animate.lane19-down { animation: lane19Down 3s forwards; }
+
+.animate.lane1-down { animation: lane1Down 3s forwards; }
+.animate.lane0-down { animation: lane0-down 3s linear forwards; }
+.animate.lane28-up { animation: lane28Up 3s forwards; }
+.animate.lane19-right { animation: lane19Right 3s forwards; }
+.animate.lane10-left { animation: lane10Left 3s forwards; }
+
+/* ------------------------- */
+/* STYLE PRZYCISKÓW         */
+/* ------------------------- */
+
+.btn {
+    position: absolute;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #2ecc71;
+    color: white;
+}
+/* Pozycjonowanie przycisków dla animacji skręcających */
+.btn.lane2-right { top: 10px; left: 55%; transform: translateX(-50%); }
+.btn.down-then-left  { top: 10px; left: 30%; transform: translateX(-50%); }
+.btn.lane0-left  { top: 10px; left: 30%; transform: translateX(-50%); }
+.btn.lane29-right   { bottom: 10px; left: 45%; transform: translateX(-50%); }
+.btn.lane27-left    { bottom: 10px; left: 55%; transform: translateX(-50%); }
+.btn.lane10-up    { top: 45%; left: 10px; }
+.btn.lane15-down  { bottom: 45%; left: 10px; }
+.btn.lane16-up   { top: 45%; right: 20px; }
+.btn.lane19-down { bottom: 45%; right: 20px; }
+
+/* Pozycjonowanie przycisków dla animacji prostych */
+.btn.lane1-down { top: 10px; left: 15%; transform: translateX(-50%); }
+.btn.lane0-down { top: 10px; left: 10%; transform: translateX(-50%); }
+.btn.lane28-up { bottom: 10px; left: 20%; transform: translateX(-50%); }
+.btn.lane19-right { top: 80%; left: 10px; }
+.btn.lane10-left { top: 90%; right: 50px; }
+
+
+
+
+/* Styles for roads */
+.intersection {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: -8;
+}
+
+.vertical-road {
+    display: flex;
+    justify-content: space-between; /* Rozmieszczanie linii w równych odstępach w poziomie */
+    position: absolute;
+    width: 20vw; /* 20% szerokości viewportu */
+    height: 100%; /* Cała wysokość kontenera */
+    background-color: black;
+    border: 5px solid grey;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -7;
+}
+
+.horizontal-road {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between; /* Rozmieszczanie linii w równych odstępach w poziomie */
+    position: absolute;
+    width: 100%; /* Cała szerokość kontenera */
+    height: 20vh; /* 20% wysokości viewportu */
+    background-color: black;
+    border: 5px solid grey;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -7;
+}
+
+/* Style for road lines */
+.road-line {
+    background-color: white;
+    z-index: -6;
+}
+
+/* Styl linii w pionie */
+.vertical-road .road-line {
+    height: 100%; /* Wysokość linii na drodze */
+    width: 2px; /* Szerokość linii */
+}
+
+/* Styl linii w poziomie */
+.horizontal-road .road-line {
+    width: 100%; /* Długość linii na drodze */
+    height: 2px; /* Wysokość linii na drodze */
+}
+
+.center-square {
+    position: absolute;
+    width: 30%;
+    height: 20%;
+    background-color: black;
+    border: 2px solid white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -5; /* Powyżej dróg, poniżej kropek */
+}
+
+/* Style liczników pasów */
+.lane-counter {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}

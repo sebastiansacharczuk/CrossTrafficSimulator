@@ -1,5 +1,6 @@
 package com.example.crosstrafficsimulator;
 
+import com.example.crosstrafficsimulator.simulation.Vehicle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
