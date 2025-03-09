@@ -51,8 +51,10 @@
       java -jar target/<nazwa_pliku>.jar <plik_wejściowy.json> <plik_wyjściowy.json>
       java -jar target/CrossTrafficSimulator-1.0-SNAPSHOT.jar input.json output.json
    ```
-#### 4. Sprawdź plik wyjściowy output.json, który zawiera informacje o pojazdach, które opuściły skrzyżowanie.
-
+#### 4. Sprawdź plik wyjściowy output.json
+Zawiera informacje o pojazdach, które opuściły skrzyżowanie. (Jeśli nie podasz swoich dwóch plikow jako argumenty to zostanie użyty plik testowy zapisany w projekcie)
+### 5. Spring aplikacja internetowa
+    Odwiedź http://localhost:8080 i zobacz prostą wizualizacje ruchu ruchu drogowego
 ## Struktura kodu
 
 - **CrossTrafficSimulatorApplication**: Główna klasa aplikacji, przetwarza argumenty i uruchamia symulację.

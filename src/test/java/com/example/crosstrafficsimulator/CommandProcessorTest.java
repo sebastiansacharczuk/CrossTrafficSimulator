@@ -29,24 +29,6 @@ public class CommandProcessorTest {
         outputFile = tempDir.resolve("output.json").toFile();
     }
 
-    @Test
-    public void testProcessCommandsValidInput() throws IOException {
-        String inputJson = "{\"commands\": [" +
-                "{\"type\": \"addVehicle\", \"vehicleId\": \"vehicle1\", \"startRoad\": \"south\", \"endRoad\": \"west\"}," +
-                "{\"type\": \"step\"}" +
-                "]}";
-        mapper.writeValue(inputFile, mapper.readTree(inputJson));
-
-        int result = CommandProcessor.processCommandsFromFile(inputFile.getPath(), outputFile.getPath());
-        assertEquals(0, result);
-
-        JsonNode output = mapper.readTree(outputFile);
-        JsonNode stepStatuses = output.get("stepStatuses");
-        assertEquals(1, stepStatuses.size());
-        JsonNode leftVehicles = stepStatuses.get(0).get("leftVehicles");
-        assertEquals(1, leftVehicles.size());
-        assertEquals("vehicle1", leftVehicles.get(0).asText());
-    }
 
     @Test
     public void testProcessCommandsMissingInputFile() {

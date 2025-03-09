@@ -4,7 +4,7 @@ import java.util.*;
 
 public class IndependentPathsFinder {
 
-    static boolean intersects(List<Integer> path1, List<Integer> path2) {
+    public static boolean intersects(List<Integer> path1, List<Integer> path2) {
         Set<Integer> set1 = new HashSet<>(path1.subList(1, path1.size()));
         for (int i = 1; i < path2.size(); i++) {
             if (set1.contains(path2.get(i))) {
@@ -14,7 +14,7 @@ public class IndependentPathsFinder {
         return false;
     }
 
-    static boolean isIndependent(List<Integer> subset,  List<List<Integer>> allVehiclePaths) {
+    public static boolean isIndependent(List<Integer> subset, List<List<Integer>> allVehiclePaths) {
         for (int i = 0; i < subset.size(); i++) {
             for (int j = i + 1; j < subset.size(); j++) {
                 List<Integer> path1 = allVehiclePaths.get(subset.get(i));
