@@ -28,35 +28,26 @@
    ```bash
       mvn clean install
    ```
-## Użytkowanie
 
-#### 1. Przygotuj plik wejściowy JSON (np. input.json) z komendami:
-   ```json
-  {
-    "commands": [
-      {"type": "addVehicle", "vehicleId": "vehicle1", "startRoad": "south", "endRoad": "west"},
-      {"type": "step"}
-   ]
-  }
+#### 4. Zbuduj obraz Docker
+   ```bash
+      docker build -t <app_name> .
    ```
 
-#### 2. Przejdź do katalogu projektu, który zawiera plik pom.xml, a następnie uruchom komendę:
+#### 5. Uruchom obraz
+operator **-p** wskazuje port dla kontera (8080 domyślny port springa)
 
    ```bash
-      mvn clean install
+      docker run -p 8080:8080 <app_name>
    ```
-   To polecenie pobierze wszystkie zależności, skompiluje kod, uruchomi testy jednostkowe (jeśli istnieją) i wygeneruje plik JAR.
-#### 3. Po skompilowaniu projektu i wygenerowaniu pliku JAR, możesz uruchomić aplikację za pomocą polecenia:
-   ```bash
-      java -jar target/<nazwa_pliku>.jar <plik_wejściowy.json> <plik_wyjściowy.json>
-      java -jar target/CrossTrafficSimulator-1.0-SNAPSHOT.jar input.json output.json
-   ```
-#### 4. Sprawdź plik wyjściowy output.json
-Zawiera informacje o pojazdach, które opuściły skrzyżowanie. (Jeśli nie podasz swoich dwóch plikow jako argumenty to zostanie użyty plik testowy zapisany w projekcie)
-### 5. Spring aplikacja internetowa
-    Odwiedź http://localhost:8080 i zobacz prostą wizualizacje ruchu ruchu drogowego
+
+
+### Użytkowanie
+
+Odwiedź `http://localhost:8080` i zobacz prostą wizualizacje ruchu ruchu drogowego
 ## Struktura kodu
 
+- **SimulatorController**: kontroler obsługuje żądania HTTP, renderuje strony i przetwarza komendy symulacji.
 - **CrossTrafficSimulatorApplication**: Główna klasa aplikacji, przetwarza argumenty i uruchamia symulację.
 - **CommandProcessor**: Odpowiada za przetwarzanie komend z pliku JSON i zarządzanie symulacją.
 - **IntersectionController**: Singleton zarządzający pasami, pojazdami i konfiguracjami świateł.
@@ -64,6 +55,7 @@ Zawiera informacje o pojazdach, które opuściły skrzyżowanie. (Jeśli nie pod
 - **Lane**: Klasa reprezentująca pas ruchu z listą pojazdów.
 - **Vehicle**: Klasa reprezentująca pojazd z identyfikatorem, kierunkiem i czasem oczekiwania.
 - **ManualSettings**: Zawiera stałe konfiguracyjne, takie jak ścieżki pojazdów i mapowanie kierunków.
+
 
 ## Testy
 
